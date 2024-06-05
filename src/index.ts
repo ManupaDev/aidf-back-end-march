@@ -3,9 +3,11 @@ import express from "express";
 import jobsRouter from "./api/jobs";
 import { connectDB } from "./infrastructure/db";
 import jobApplicationRouter from "./api/jobApplication";
+import  cors from "cors";
 
 const app = express();
 app.use(express.json());
+app.use(cors())
 
 connectDB();
 
