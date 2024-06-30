@@ -18,10 +18,16 @@ export async function generateRating(jobApplicationId){
 
     const strResponse = completion.choices[0].message.content;
     console.log(strResponse);
+    if(!strResponse){
+        return;
+    }
+
     const response = JSON.parse(strResponse);
+    
     if(!response.rate){
         return
     }
+
     await JobApplication.findOneAndUpdate({_id:jobApplicationId},{rating:response.rate})
 
 }
