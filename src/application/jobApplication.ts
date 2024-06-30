@@ -12,54 +12,44 @@ export const createJobApplication = async (
     console.log(jobApplication);
 
     const createdJobApplication = await JobApplication.create(jobApplication);
-    // call the method that updates the created job application with the rating 
-    generateRating(createdJobApplication._id)
+    // call the method that updates the created job application with the rating
+    generateRating(createdJobApplication._id);
 
     return res.status(201).send();
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return res.status(500).send();
   }
-
 };
 
-
-export const getJobApplications = async (
-  req: Request,
-  res: Response,
-) => {
+export const getJobApplications = async (req: Request, res: Response) => {
   try {
-    const { jobid } = req.query;
+    const { jobId } = req.query;
+    console.log(jobId);
 
-    if (jobid) {
-      const jobApplications = await JobApplication.find({ job: jobid })
+    if (jobId) {
+      const jobApplications = await JobApplication.find({ job: jobId });
       return res.status(200).json(jobApplications);
     }
 
     const jobApplications = await JobApplication.find().populate("job").exec();
     return res.status(200).json(jobApplications);
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return res.status(500).send();
   }
-
-
 };
 
-export const getJobApplicationById = async (
-  req: Request,
-  res: Response,
-) => {
+export const getJobApplicationById = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const jobApplication = await JobApplication.findById(id);
+    const jobApplication = await JobApplication.findById(id).populate("job");
     if (jobApplication === null) {
       return res.status(404).send();
     }
     return res.status(200).json(jobApplication);
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return res.status(500).send();
   }
-
-}
+};
